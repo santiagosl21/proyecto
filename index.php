@@ -1,22 +1,31 @@
-<?php
-$controller = 'Welcome';
-
-// Todo esta lógica hara el papel de un FrontController
-if(!isset($_REQUEST['c'])){
-    require_once "controllers/".$controller."Controller.php";
-    $controller = ucwords($controller) . 'Controller';
-    $controller = new $controller;
-    $controller->Index();    
-}else {
-    // Obtenemos el controlador que queremos cargar
-    $controller = ucwords($_REQUEST['c']);
-    $accion = isset($_REQUEST['a']) ? $_REQUEST['a'] : 'Index';
-    
-    // Instanciamos el controlador
-    require_once "controllers/".$controller."Controller.php";
-    $controller = $controller . 'Controller';
-    $controller = new $controller;
-    
-    // Llama la accion
-    call_user_func( array( $controller, $accion ) );
-}
+<?php require "./inc/session_start.php"; ?>
+<!DOCTYPE html>
+<html>
+    <head>
+        <?php include "./inc/head.php"; ?>
+        <link rel="stylesheet" href="/css/estilos.css">
+    </head>
+    <body>
+        <?php
+            if(!isset($_GET['vista']) || $_GET['vista']==""|| $_GET['vista']=="index1"){
+                $_GET['vista']="login";
+            }
+            if(is_file("./vistas/".$_GET['vista'].".php") && $_GET['vista']!="login" && $_GET['vista']!="404"){
+                /*== Cerrar sesion ==*/
+                if((!isset($_SESSION['id']) || $_SESSION['id']=="") || (!isset($_SESSION['usuario']) || $_SESSION['usuario']=="")){
+                    include "./vistas/logout.php";
+                    exit();
+                }
+                include "./inc/navbar.php";
+                include "./vistas/".$_GET['vista'].".php";
+                include "./inc/script.php";
+            }else{
+                if($_GET['vista']=="login"){
+                    include "./vistas/login.php";
+                }else{
+                    include "./vistas/404.php";
+                }
+            }
+        ?>
+    </body>
+</html>

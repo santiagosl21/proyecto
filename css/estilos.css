@@ -1,0 +1,28 @@
+/* html{
+	height: 100%;
+	width: 100%;
+} */
+body, html {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+	background: url() no-repeat center center fixed; 
+}
+
+.main-container{
+	height: 100%;
+	width: 100%;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+.main-container .main-container > .hero-body{
+	height: auto;
+	width: 100%;
+	max-width: 400px;
+	min-width: 300px;
+}
+
+.form-inline{
+	display: inline-flex;
+}
